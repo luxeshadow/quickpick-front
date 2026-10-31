@@ -88,7 +88,7 @@
 
             <Button
               :label="isSubmitting ? 'Creating account…' : 'Create account'"
-              :disabled="isSubmitting"
+              :loading="isSubmitting" :disabled="isSubmitting"
               icon="fi fi-rr-arrow-right-to-bracket"
               type="submit"
             />

@@ -47,7 +47,7 @@
         />
       </label>
     </div>
-    <p v-if="loadingEvents" role="status" class="empty">Chargement des événements…</p>
+    <LoadingSpinner v-if="loadingEvents" label="Chargement des événements" />
     <div v-else-if="loadError" class="empty" role="alert"><p>{{ loadError }}</p><button class="btn" @click="loadEvents(page)">Réessayer</button></div>
     <div v-else class="event-collection">
       <EventCard
@@ -84,7 +84,7 @@
         <DateInput v-model="date" class="field" label="Date (facultatif)" :disabled="submitting" />
         <div class="dialog-actions">
           <Button class="create-cancel" label="Annuler" type="button" :disabled="submitting" :on-click="() => creating = false" />
-          <Button class="create-submit" :label="submitting ? 'Création…' : 'Créer'" type="submit" :disabled="submitting" />
+          <Button class="create-submit" :label="submitting ? 'Création…' : 'Créer'" :loading="submitting" type="submit" :disabled="submitting" />
         </div>
       </form>
     </ManagerDialog>
@@ -113,6 +113,7 @@
   </section>
 </template>
 <script setup lang="ts">
+import LoadingSpinner from '../../../../core/components/other/LoadingSpinner.vue';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { GetMyEventsUseCase } from '../../application/usecases/get_my_events_usecase';
 import { GetMyEventsRepositoryImpl } from '../../data/repositories/get_my_events_repository_impl';

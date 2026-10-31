@@ -1,17 +1,19 @@
 <template>
   <div class="google-sign-in" :aria-busy="loading">
     <div class="google-button" aria-hidden="true">
-      <img :src="AppImages.google" alt="" width="20" height="20" />
+      <LoadingSpinner v-if="loading" inline :size="20" label="Connexion Google en cours" />
+      <img v-else :src="AppImages.google" alt="" width="20" height="20" />
       <span>Continue with Google</span>
     </div>
     <div ref="button" class="google-click-target" v-show="!loading && !unavailable" />
     <button v-if="unavailable" class="google-fallback" type="button" aria-label="Continue with Google"
       @click="showToast('La connexion Google est indisponible pour le moment.', 'fi-rr-info')" />
-    <span v-if="loading" class="sr-only" role="status">Connexion en cours…</span>
+
   </div>
 </template>
 
 <script setup lang="ts">
+import LoadingSpinner from '../../../../core/components/other/LoadingSpinner.vue';
 import { useAuthStore } from '../store/auth_store';
 import { onMounted, onBeforeUnmount, ref } from 'vue';
 import { useRuntimeConfig, useRouter } from '#imports';

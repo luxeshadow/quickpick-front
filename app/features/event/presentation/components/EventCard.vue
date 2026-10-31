@@ -55,7 +55,9 @@
         :aria-busy="updating"
         @click="$emit('toggle', event)"
       >
+        <LoadingSpinner v-if="updating" inline :size="18" label="Mise à jour de l’événement" />
         <i
+          v-else
           :class="event.status === 'inactive' ? 'fi fi-rr-play' : 'fi fi-rr-pause'"
           aria-hidden="true"
         />
@@ -76,6 +78,7 @@
   </article>
 </template>
 <script setup lang="ts">
+import LoadingSpinner from '../../../../core/components/other/LoadingSpinner.vue';
 import { computed } from 'vue';
 import type { Event as ManagerEvent } from '../../domain/entities/event';
 const props = withDefaults(defineProps<{ event: ManagerEvent; updating?: boolean; statusDisabled?: boolean }>(), { updating: false, statusDisabled: false });

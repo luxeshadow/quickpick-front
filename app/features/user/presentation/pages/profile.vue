@@ -70,7 +70,7 @@ async function save() {
       <footer class="profile-form-footer">
         <div>
           <Button label="Annuler" class="profile-reset" :on-click="reset" :disabled="busy" />
-          <Button :label="busy ? 'Enregistrement…' : 'Enregistrer'" icon="fi fi-rr-disk" type="submit" :disabled="busy || !auth.session" />
+          <Button :label="busy ? 'Enregistrement…' : 'Enregistrer'" :loading="busy" icon="fi fi-rr-disk" type="submit" :disabled="busy || !auth.session" />
         </div>
       </footer>
     </form>

@@ -3,12 +3,14 @@
   <button
     class="app-button"
     :type="type"
-    :disabled="disabled"
+    :disabled="disabled || loading"
+    :aria-busy="loading"
     @click="handleClick"
   >
 
+    <LoadingSpinner v-if="loading" inline :size="18" :label="label" class="button-loading" />
     <i
-      v-if="icon"
+      v-else-if="icon"
       :class="icon"
       class="button-icon"
     ></i>
@@ -25,6 +27,7 @@
 <script setup lang="ts">
 
 import { AppColors } from '../../constants/app_colors';
+import LoadingSpinner from './LoadingSpinner.vue';
 
 const colors = AppColors;
 
@@ -38,6 +41,7 @@ interface Props {
   type?: 'button' | 'submit' | 'reset';
 
   disabled?: boolean;
+  loading?: boolean;
 
   onClick?: () => void;
 
@@ -50,6 +54,7 @@ const props = withDefaults(
     icon: '',
     type: 'button',
     disabled: false,
+    loading: false,
     onClick: undefined
   }
 );
@@ -57,7 +62,7 @@ const props = withDefaults(
 
 const handleClick = () => {
 
-  if (props.disabled) {
+  if (props.disabled || props.loading) {
     return;
   }
 
@@ -71,6 +76,10 @@ const handleClick = () => {
 
 
 <style scoped>
+.button-loading {
+  --spinner-color: currentColor;
+  --spinner-track: transparent;
+}
 
 .app-button {
   width: 100%;

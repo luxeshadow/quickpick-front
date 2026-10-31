@@ -3,8 +3,8 @@
     <header><div><small>VOTRE ACTIVITÉ · {{ monthly.year }}</small><h3>Événements par mois</h3></div></header>
     <div class="chart-area" :aria-busy="loading">
       <canvas ref="canvas" role="img" :aria-label="description" />
-      <div v-if="loading" class="chart-overlay" role="status" aria-label="Chargement du graphique">
-        <span class="chart-spinner" aria-hidden="true"></span>
+      <div v-if="loading" class="chart-overlay">
+        <LoadingSpinner label="Chargement du graphique" />
       </div>
       <div v-else-if="error" class="chart-overlay" role="alert">
         <span>{{ error }}</span>
@@ -14,6 +14,7 @@
   </section>
 </template>
 <script setup lang="ts">
+import LoadingSpinner from '../../../../core/components/other/LoadingSpinner.vue';
 import Chart from 'chart.js/auto';
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { AppColors } from '../../../../core/constants/app_colors';
@@ -88,20 +89,7 @@ onBeforeUnmount(() => {
   font-size: 13px;
   text-align: center;
 }
-.chart-spinner {
-  width: 36px;
-  height: 36px;
-  border: 3px solid var(--app-primary10);
-  border-top-color: var(--app-primary);
-  border-radius: 50%;
-  animation: chart-spin .8s linear infinite;
-}
-@keyframes chart-spin {
-  to { transform: rotate(360deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .chart-spinner { animation: none; }
-}
+
 .chart-card {
   padding: 24px;
   background: var(--app-surface);

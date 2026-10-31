@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LoadingSpinner from '../../core/components/other/LoadingSpinner.vue';
 import { computed, ref, onBeforeUnmount, watch } from 'vue';
 import { useRoute } from '#imports';
 import FaceScanner from '../../features/media/presentation/components/client/FaceScanner.vue';
@@ -48,9 +49,7 @@ async function handleCapture(photo: File, consent: boolean) {
 }
 </script>
 <template>
-  <div v-if="loading" class="access-loading" role="status" aria-label="Chargement du lien d’accès">
-    <span class="access-spinner" aria-hidden="true"></span>
-  </div>
+  <LoadingSpinner v-if="loading" fullscreen :size="44" label="Chargement du lien d’accès" />
   <p v-else-if="error" role="alert">{{ error }}</p>
   <div v-else-if="accessLink">
     <FaceScanner v-if="!scanResult" :busy="searching" :search-error="searchError" @close="navigateTo({ path: '/media', query: { token } })" @capture="handleCapture" @change="searchError = ''" />
@@ -65,27 +64,7 @@ async function handleCapture(photo: File, consent: boolean) {
   </div>
 </template>
 <style scoped>
-.access-loading {
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: grid;
-  place-items: center;
-  background: var(--app-background);
-}
-.access-spinner {
-  width: 44px;
-  height: 44px;
-  border: 4px solid var(--app-primary10);
-  border-top-color: var(--app-primary);
-  border-radius: 50%;
-  animation: access-spin 0.8s linear infinite;
-}
-@keyframes access-spin {
-  to { transform: rotate(360deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .access-spinner { animation: none; }
-}
+
 
 .scan-result { padding: 20px; text-align: center; background: var(--app-background); color: var(--app-textPrimary); }
 .scan-result button { margin: 5px; padding: 10px 16px; border: 1px solid var(--app-border); border-radius: 10px; background: var(--app-surface); color: var(--app-primary); cursor: pointer; }

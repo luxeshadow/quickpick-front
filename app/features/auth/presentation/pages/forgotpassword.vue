@@ -9,7 +9,7 @@
       <Input v-model="email" type="email" name="email" label="Email address" placeholder="Enter your email"
         prefix-icon="fi fi-rr-at" autocomplete="email" required />
 
-      <Button :label="loading ? 'Sending...' : 'Send reset instructions'" :disabled="loading" type="submit" />
+      <Button :label="loading ? 'Sending...' : 'Send reset instructions'" :loading="loading" :disabled="loading" type="submit" />
     </form>
     <NuxtLink class="back-link" to="/auth/login">Back to sign in</NuxtLink>
   </AuthPageLayout>

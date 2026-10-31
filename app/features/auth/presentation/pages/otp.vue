@@ -42,7 +42,7 @@
       </p>
 
       <Button
-        :label="loading ? 'Verifying...' : 'Verify code'"
+        :label="loading ? 'Verifying...' : 'Verify code'" :loading="loading"
         :disabled="busy"
         type="submit"
       />
@@ -57,6 +57,7 @@
         :disabled="busy"
         @click="resendCode"
       >
+        <LoadingSpinner v-if="resending" inline :size="16" label="Envoi du code" />
         Resend code
       </button>
     </div>
@@ -68,6 +69,7 @@
 </template>
 
 <script setup lang="ts">
+import LoadingSpinner from '../../../../core/components/other/LoadingSpinner.vue';
 import { useAuthStore } from '../store/auth_store';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from '#imports';

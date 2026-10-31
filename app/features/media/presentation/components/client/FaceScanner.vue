@@ -11,7 +11,7 @@
       <h1 id="scanner-title">Prenez une photo de votre visage.</h1>
       <p class="description">Placez votre visage dans le cadre ou choisissez une photo de vous.</p>
       <div class="viewfinder" :aria-busy="busy">
-        <div v-if="busy" class="search-overlay" role="status" aria-label="Recherche de vos photos"><span class="search-spinner" aria-hidden="true"></span></div>
+        <div v-if="busy" class="search-overlay"><LoadingSpinner :size="44" label="Recherche de vos photos" class="scanner-loading" /></div>
         <img v-if="preview" :src="preview" alt="Aperçu de votre photo" class="photo-preview" />
         <video v-show="streamActive && !preview" ref="video" autoplay muted playsinline webkit-playsinline class="camera-preview" @loadeddata="markReady" @canplay="markReady" />
         <div v-if="!streamActive && !preview" class="camera-placeholder" aria-hidden="true">
@@ -34,8 +34,8 @@
           <button class="secondary-button" type="button"  :disabled="busy" @click="reset">Reprendre une photo</button>
         </template>
         <template v-else>
-          <button v-if="streamActive" class="primary-button" type="button" :disabled="!cameraReady || capturing" @click="capture"><i class="fi fi-rr-camera" aria-hidden="true"></i> {{ capturing ? 'Préparation…' : cameraReady ? 'Prendre la photo' : 'Préparation de la caméra…' }}</button>
-          <button v-else class="primary-button" type="button" :disabled="starting" @click="startCamera"><i class="fi fi-rr-camera" aria-hidden="true"></i> {{ starting ? 'Ouverture de la caméra…' : 'Activer la caméra' }}</button>
+          <button v-if="streamActive" class="primary-button" type="button" :disabled="!cameraReady || capturing" @click="capture"><LoadingSpinner v-if="capturing" inline :size="18" label="Préparation de la photo" class="scanner-loading" /><i v-else class="fi fi-rr-camera" aria-hidden="true"></i> {{ capturing ? 'Préparation…' : cameraReady ? 'Prendre la photo' : 'Préparation de la caméra…' }}</button>
+          <button v-else class="primary-button" type="button" :disabled="starting" @click="startCamera"><LoadingSpinner v-if="starting" inline :size="18" label="Ouverture de la caméra" class="scanner-loading" /><i v-else class="fi fi-rr-camera" aria-hidden="true"></i> {{ starting ? 'Ouverture de la caméra…' : 'Activer la caméra' }}</button>
           <button v-if="starting" class="secondary-button" type="button" @click="cancelCamera">Annuler la demande</button>
           <button v-if="isMobile && error" class="secondary-button" type="button" @click="openNativeCamera">Utiliser l’appareil photo du téléphone</button>
           <button class="secondary-button" type="button" @click="openPhotoPicker"><i class="fi fi-rr-picture" aria-hidden="true"></i> Choisir une photo</button>
@@ -49,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import LoadingSpinner from '../../../../../core/components/other/LoadingSpinner.vue';
 import AppLogo from '../../../../../core/components/other/AppLogo.vue';
 import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
 import { AppColors } from '../../../../../core/constants/app_colors';
@@ -235,12 +236,11 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .search-overlay { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; background: v-bind('colors.navy'); opacity: .92; }
-.search-spinner { width: 44px; height: 44px; border: 4px solid v-bind('colors.white20'); border-top-color: v-bind('colors.primaryLight'); border-radius: 50%; animation: search-spin .8s linear infinite; }
-@keyframes search-spin { to { transform: rotate(360deg); } }
+.scanner-loading { --spinner-color: v-bind('colors.primaryLight'); --spinner-track: v-bind('colors.white20'); }
 .consent { display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 12px; line-height: 1.6; color: v-bind('colors.textOnDarkSecondary'); }
 .consent input { margin-top: 4px; accent-color: v-bind('colors.primary'); }
 .secondary-button:disabled { opacity: .65; cursor: default; }
-@media (prefers-reduced-motion: reduce) { .search-spinner { animation: none; } }
+
 
 .face-scanner { min-height: 100dvh; background: radial-gradient(ellipse at 50% 35%, v-bind('colors.navySoft'), var(--app-transparent) 65%), v-bind('colors.navy'); color: v-bind('colors.white'); padding: 28px 24px 40px; }
 .scanner-top { max-width: 1200px; margin: auto; display: flex; align-items: center; justify-content: space-between; }

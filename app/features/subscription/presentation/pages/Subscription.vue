@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LoadingSpinner from '../../../../core/components/other/LoadingSpinner.vue';
 import { ref, watch } from 'vue';
 import { Failure } from '../../../../core/error/failure';
 import { useAuthStore } from '../../../auth/presentation/store/auth_store';
@@ -55,7 +56,7 @@ watch(() => authStore.session?.token, async (token, oldToken, onCleanup) => {
         <p>Comparez les fonctionnalités et le nombre d’événements inclus.</p>
       </div>
     </div>
-    <p v-if="loading" role="status">Chargement des abonnements…</p>
+    <LoadingSpinner v-if="loading" label="Chargement des abonnements" />
     <p v-if="plansError" role="alert">{{ plansError }}</p>
     <p v-if="subscriptionError" role="alert">{{ subscriptionError }}</p>
     <p v-if="!loading && currentSubscription" role="status">{{ currentSubscription.message }}</p>

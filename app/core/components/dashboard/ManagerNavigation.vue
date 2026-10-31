@@ -33,7 +33,9 @@
     :disabled="loggingOut"
     @click="logout"
   >
+    <LoadingSpinner v-if="loggingOut" inline :size="18" label="Déconnexion en cours" class="logout-loading" />
     <i
+      v-else
       class="fi fi-rr-sign-out-alt"
       aria-hidden="true"
     />
@@ -42,6 +44,7 @@
 </template>
 
 <script setup lang="ts">
+import LoadingSpinner from '../other/LoadingSpinner.vue';
 import { useAuthStore } from '../../../features/auth/presentation/store/auth_store';
 import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
@@ -122,6 +125,7 @@ function isActive(path: string) {
 </script>
 
 <style scoped>
+.logout-loading { --spinner-color: currentColor; --spinner-track: transparent; }
 button { width: 100%; border: 0; background: var(--app-transparent); font: inherit; text-align: left; cursor: pointer; }
 button.logout:disabled { opacity: .6; cursor: wait; }
 nav {

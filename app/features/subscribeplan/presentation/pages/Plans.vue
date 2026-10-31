@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LoadingSpinner from '../../../../core/components/other/LoadingSpinner.vue';
 import { ref, watch } from 'vue';
 import Input from '../../../../core/components/other/Input.vue';
 import Button from '../../../../core/components/other/Button.vue';
@@ -137,14 +138,14 @@ async function remove() {
           <label class="check"><input v-model="form.acceptVideo" type="checkbox" :disabled="busy || loading" />Vidéos autorisées</label>
           <label class="check"><input v-model="form.active" type="checkbox" :disabled="busy || loading" />Plan actif</label>
           <div class="head">
-            <Button class="compact" :label="busy ? 'Enregistrement…' : editingId === null ? 'Créer le plan' : 'Enregistrer'" type="submit" :disabled="busy || loading" />
+            <Button class="compact" :label="busy ? 'Enregistrement…' : editingId === null ? 'Créer le plan' : 'Enregistrer'" :loading="busy" type="submit" :disabled="busy || loading" />
             <Button v-if="editingId !== null" class="compact light" label="Annuler" :on-click="resetForm" :disabled="busy || loading" />
           </div>
         </form>
       </section>
       <section class="card">
         <h2>Plans disponibles</h2><p>Les offres de votre catalogue.</p>
-        <p v-if="loading" role="status">Chargement des plans…</p>
+        <LoadingSpinner v-if="loading" label="Chargement des plans" />
         <p v-if="!loading && !error && !plans.length">Aucun plan disponible.</p>
         <article v-for="plan in plans" :key="plan.id" class="plan">
           <div class="head"><strong>{{ plan.name }}</strong><span class="pill">{{ plan.isActive ? 'Actif' : 'Inactif' }}</span></div>

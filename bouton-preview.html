@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aperçu du bouton</title>
+    <style>
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #fff;
+        font-family: Arial, sans-serif;
+      }
+
+      .bouton {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        width: 372px;
+        max-width: calc(100vw - 40px);
+        height: 70px;
+        border: 1px solid #7b9ed0;
+        border-radius: 5px;
+        background: #2454a1;
+        box-shadow: 0 6px 16px #17375a26;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .texte {
+        position: relative;
+        z-index: 1;
+        font-size: clamp(16px, 4.6vw, 22px);
+        font-weight: 700;
+        letter-spacing: 1.4px;
+        white-space: nowrap;
+      }
+
+      .carreau {
+        position: absolute;
+        top: 50%;
+        width: 42px;
+        height: 42px;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+
+      .gauche { left: 6px; }
+      .droite { right: 6px; }
+
+      .carreau i {
+        position: absolute;
+        inset: 0;
+        background: #ffffff;
+        animation: jaillissement 3.2s linear infinite;
+      }
+
+      .carreau i:nth-child(2) { animation-delay: -1.067s; }
+      .carreau i:nth-child(3) { animation-delay: -2.133s; }
+      .droite i:nth-child(1) { animation-delay: -.533s; }
+      .droite i:nth-child(2) { animation-delay: -1.6s; }
+      .droite i:nth-child(3) { animation-delay: -2.667s; }
+
+      @keyframes jaillissement {
+        0% { transform: scale(.05); opacity: 0; }
+        15% { opacity: .1; }
+        35%, 78% { opacity: .14; }
+        100% { transform: scale(3.5); opacity: 0; }
+      }
+
+      .bouton:focus-visible {
+        outline: 3px solid #2454a1;
+        outline-offset: 5px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .carreau i { animation: none; opacity: .08; }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="bouton" type="button">
+      <span class="carreau gauche" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="texte">VOIR MAINTENANT</span>
+      <span class="carreau droite" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+  </body>
+</html>

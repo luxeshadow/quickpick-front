@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LoadingSpinner from '../../../../core/components/other/LoadingSpinner.vue';
 import { ref, watch } from 'vue';
 import { Failure } from '../../../../core/error/failure';
 import { useAuthStore } from '../../../auth/presentation/store/auth_store';
@@ -102,7 +103,7 @@ async function remove() {
     <p class="access-event">{{ event?.name }}</p>
     <p v-if="error" role="alert">{{ error }}</p>
     <p v-if="notice" role="status">{{ notice }}</p>
-    <p v-if="busy" role="status">Chargement…</p>
+    <LoadingSpinner v-if="busy" label="Chargement des liens d’accès" />
     <Button v-if="!formOpen" class="access-generate" label="Générer un lien d’accès" icon="fi fi-rr-plus" :disabled="busy" :on-click="openCreate" />
     <form v-else class="access-form" @submit.prevent="save">
       <h4>{{ editing ? 'Modifier le lien' : 'Nouveau lien' }}</h4>

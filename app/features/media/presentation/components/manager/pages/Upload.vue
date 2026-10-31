@@ -20,7 +20,7 @@
                 label="Événement de destination"
               />
             </fieldset>
-            <p v-if="loadingOptions" role="status">Chargement des événements…</p>
+            <LoadingSpinner v-if="loadingOptions" label="Chargement des événements" />
             <p v-else-if="optionsError" role="alert">{{ optionsError }} <button class="btn" @click="loadOptions">Réessayer</button></p>
             <p v-else-if="!events.length">Aucun événement disponible.</p>
           </div>
@@ -131,7 +131,7 @@
         </span>
         <span class="eyebrow">VOTRE IMPORT</span>
         <h3>{{ eventName || 'Aucun événement disponible' }}</h3>
-        <p v-if="loadingEvent" role="status">Chargement de l’événement…</p>
+        <LoadingSpinner v-if="loadingEvent" label="Chargement de l’événement" />
         <p v-else-if="eventError" role="alert">{{ eventError }} <button class="btn" @click="loadSelectedEvent">Réessayer</button></p>
         <template v-else-if="selectedEvent">
           <p v-if="selectedEvent.description">{{ selectedEvent.description }}</p>
@@ -160,7 +160,7 @@
           />
           {{ running ? 'Envoi en cours…' : 'Envoyer les médias' }}
         </button>
-        <p v-if="running" role="status">Envoi et traitement par le serveur en cours…</p>
+        <LoadingSpinner v-if="running" label="Envoi et traitement par le serveur en cours" />
         <ul v-if="failedFiles.length" role="alert">
           <li v-for="(file, index) in failedFiles" :key="index">{{ file.filename }} : {{ file.error }}</li>
         </ul>
@@ -176,6 +176,7 @@
   </section>
 </template>
 <script setup lang="ts">
+import LoadingSpinner from '../../../../../../core/components/other/LoadingSpinner.vue';
 import { ref, computed, onMounted, watch, onBeforeUnmount } from 'vue';
 import { useRoute } from '#imports';
 import AppSelect from '../../../../../../core/components/other/AppSelect.vue';

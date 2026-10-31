@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LoadingSpinner from '../../core/components/other/LoadingSpinner.vue';
 import { computed, ref, watch } from 'vue';
 import { useRoute } from '#imports';
 import PublicGallery from '../../features/media/presentation/components/client/PublicGallery.vue';
@@ -44,9 +45,10 @@ async function loadMore() {
   <div>
     <p v-if="error" role="alert">{{ error }}</p>
     <PublicGallery :items="items" :loading="loading" />
-    <button v-if="hasMore && nextCursor" type="button" class="load-more" :disabled="loadingMore" @click="loadMore">{{ loadingMore ? 'Chargement…' : 'Voir plus de photos' }}</button>
+    <button v-if="hasMore && nextCursor" type="button" class="load-more" :disabled="loadingMore" @click="loadMore"><LoadingSpinner v-if="loadingMore" inline :size="18" label="Chargement des photos" class="more-loading" /><span v-else>Voir plus de photos</span></button>
   </div>
 </template>
 <style scoped>
 .load-more { display: block; margin: 20px auto; padding: 12px 20px; border: none; border-radius: 12px; background: var(--app-primary); color: var(--app-textOnPrimary); cursor: pointer; }
+.more-loading { --spinner-color: currentColor; --spinner-track: transparent; }
 </style>

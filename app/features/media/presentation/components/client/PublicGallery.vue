@@ -7,7 +7,7 @@
       </button>
       <div class="appbar-title" aria-live="polite"><h1>{{ selecting ? `${selected.length} sélectionné(s)` : 'Galerie publique' }}</h1><span v-if="!selecting">Vos souvenirs, au même endroit.</span></div>
       <button v-if="selecting" class="icon-button download-button" type="button" aria-label="Télécharger la sélection" :disabled="!selected.length || downloading" :aria-busy="downloading" @click="downloadMedia(selected)">
-        <span v-if="downloading" class="download-spinner" aria-hidden="true"></span><i v-else class="fi fi-rr-download" aria-hidden="true"></i>
+        <LoadingSpinner v-if="downloading" inline :size="20" label="Téléchargement en cours" class="download-loading" /><i v-else class="fi fi-rr-download" aria-hidden="true"></i>
       </button>
       <button v-else class="select-button" type="button" :disabled="loading || !visibleItems.length" @click="selecting = true">Sélectionner</button>
     </header>
@@ -46,10 +46,10 @@
         <header class="viewer-appbar">
           <button type="button" class="icon-button" aria-label="Retour à la grille" @click="closeViewer"><i  class="fi fi-rr-arrow-small-left" aria-hidden="true"></i></button>
           <span aria-live="polite">{{ (activeIndex ?? 0) + 1 }} / {{ visibleItems.length }}</span>
-          <button class="icon-button" type="button" aria-label="Télécharger ce média" :disabled="downloading" :aria-busy="downloading" @click="downloadMedia([activeItem.id])"><span v-if="downloading" class="download-spinner" aria-hidden="true"></span><i v-else class="fi fi-rr-download" aria-hidden="true"></i></button>
+          <button class="icon-button" type="button" aria-label="Télécharger ce média" :disabled="downloading" :aria-busy="downloading" @click="downloadMedia([activeItem.id])"><LoadingSpinner v-if="downloading" inline :size="20" label="Téléchargement en cours" class="download-loading" /><i v-else class="fi fi-rr-download" aria-hidden="true"></i></button>
         </header>
         <div class="viewer-stage" @pointerdown="beginSwipe" @pointerup="endSwipe" @pointercancel="swipeStart = null">
-          <span v-if="!viewerLoaded && !viewerFailed" class="viewer-loading" role="status">Chargement…</span>
+          <LoadingSpinner v-if="!viewerLoaded && !viewerFailed" class="viewer-loading" label="Chargement de la photo" />
           <p v-if="viewerFailed" class="viewer-error" role="alert">Ce média ne peut pas être chargé.</p>
           <img v-if="activeItem.type === 'photo'" :key="activeItem.id" :src="activeItem.src" :alt="activeItem.title" draggable="false" :class="{ ready: viewerLoaded }" @load="viewerLoaded = true" @error="viewerFailed = true" />
           <video v-else :key="`video-${activeItem.id}`" :src="activeItem.src" :poster="activeItem.thumbnail" controls playsinline preload="metadata" @loadedmetadata="viewerLoaded = true" @error="viewerFailed = true" />
@@ -63,6 +63,7 @@
 </template>
 
 <script setup lang="ts">
+import LoadingSpinner from '../../../../../core/components/other/LoadingSpinner.vue';
 import { computed, nextTick, onBeforeUnmount, ref } from 'vue';
 import { useRouter, useRoute } from '#imports';
 import { AppColors } from '../../../../../core/constants/app_colors';
@@ -291,13 +292,13 @@ h1 { margin: 0; font-size: 18px; font-weight: 700; }
 .viewer-stage > img { opacity: 0; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 .viewer-stage > img.ready { opacity: 1; }
 .viewer-loading, .viewer-error { position: absolute; padding: 20px; color: var(--app-textOnDarkSecondary); font-size: 14px; text-align: center; }
-.viewer-loading { animation: loading-pulse 1s ease-in-out infinite alternate; }
-@keyframes loading-pulse { to { opacity: .4; } }
+
+
 .viewer-prev, .viewer-next { position: absolute; top: 50%; background: var(--app-blackAlpha77); border-radius: 50%; }
 .viewer-prev { left: 16px; } .viewer-next { right: 16px; }
 @media (max-width: 950px) { .media-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .gallery-appbar { gap: 6px; padding-left: 8px; padding-right: 16px; min-height: 66px; } h1 { font-size: 16px; } .appbar-title span { display: none; } .gallery-content { padding: 18px 8px 28px; } .gallery-tabs, .gallery-hint { margin-left: 8px; margin-right: 8px; } .media-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; } .media-tile { border-radius: 3px; } .viewer-prev, .viewer-next { width: 34px; height: 34px; padding: 5px; } .viewer-prev { left: 6px; } .viewer-next { right: 6px; } }
-@media (prefers-reduced-motion: reduce) { .viewer-loading { animation: none; } }
+
 
 /* Gallery presentation */
 .public-gallery { background: v-bind('colors.backgroundLight'); }
@@ -340,7 +341,6 @@ h1 { margin: 0; font-size: 18px; font-weight: 700; }
 @media (prefers-reduced-motion: reduce) { .media-tile img { transition: none; } }
 
 
-.download-spinner { width: 20px; height: 20px; border: 2px solid currentColor; border-right-color: var(--app-transparent); border-radius: 50%; animation: download-spin .8s linear infinite; }
-@keyframes download-spin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .download-spinner { animation: none; } }
+.download-loading { --spinner-color: currentColor; --spinner-track: transparent; }
+.viewer-loading { --spinner-color: var(--app-primaryLight); --spinner-track: var(--app-white20); }
 </style>

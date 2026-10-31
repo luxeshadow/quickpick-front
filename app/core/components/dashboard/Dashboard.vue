@@ -12,7 +12,7 @@
     </div>
     <AppSelect v-model="year" :options="years" label="Année des statistiques" />
   </div>
-  <p v-if="loading" role="status">Chargement des statistiques…</p>
+  <LoadingSpinner v-if="loading" label="Chargement des statistiques" />
   <div v-else-if="error" role="alert">
     <p>{{ error }}</p>
     <button type="button" @click="loadStats">Réessayer</button>
@@ -57,6 +57,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import LoadingSpinner from '../other/LoadingSpinner.vue';
 import SubscriptionBanner from '../other/SubscriptionBanner.vue';
 import AppSelect from '../other/AppSelect.vue';
 import EventChart from '../../../features/event/presentation/components/EventChart.vue';

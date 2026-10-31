@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LoadingSpinner from '../../core/components/other/LoadingSpinner.vue';
 import { computed, ref, watch } from 'vue';
 import { useRoute } from '#imports';
 import ScanLanding from '../../features/media/presentation/components/client/ScanLanding.vue';
@@ -25,35 +26,11 @@ watch(token, async (value, oldValue, onCleanup) => {
 }, { immediate: true });
 </script>
 <template>
-  <div v-if="loading" class="access-loading" role="status" aria-label="Chargement du lien d’accès">
-    <span class="access-spinner" aria-hidden="true"></span>
-  </div>
+  <LoadingSpinner v-if="loading" fullscreen :size="44" label="Chargement du lien d’accès" />
   <p v-else-if="error" role="alert">{{ error }}</p>
   <ScanLanding v-else-if="accessLink"
     @scan="navigateTo({ path: '/media/scan', query: { token } })"
     @gallery="navigateTo({ path: '/media/galery', query: { token } })" />
 </template>
 
-<style scoped>
-.access-loading {
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: grid;
-  place-items: center;
-  background: var(--app-background);
-}
-.access-spinner {
-  width: 44px;
-  height: 44px;
-  border: 4px solid var(--app-primary10);
-  border-top-color: var(--app-primary);
-  border-radius: 50%;
-  animation: access-spin 0.8s linear infinite;
-}
-@keyframes access-spin {
-  to { transform: rotate(360deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .access-spinner { animation: none; }
-}
-</style>
+

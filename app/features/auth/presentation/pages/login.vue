@@ -73,7 +73,7 @@
 
             <Button
               :label="isSubmitting ? 'Signing in…' : 'Sign in'"
-              :disabled="isSubmitting"
+              :loading="isSubmitting" :disabled="isSubmitting"
               icon="fi fi-rr-arrow-right-to-bracket"
               type="submit"
             />

@@ -24,7 +24,7 @@
         prefix-icon="fi fi-rr-lock"
         autocomplete="new-password"
       />
-      <Button :label="loading ? 'Resetting...' : 'Reset password'" :disabled="loading" type="submit" />
+      <Button :label="loading ? 'Resetting...' : 'Reset password'" :loading="loading" :disabled="loading" type="submit" />
     </form>
     <NuxtLink class="back-link" to="/auth/login">Back to sign in</NuxtLink>
   </AuthPageLayout>

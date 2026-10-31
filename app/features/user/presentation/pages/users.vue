@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LoadingSpinner from '../../../../core/components/other/LoadingSpinner.vue';
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from '#imports';
 import Input from '../../../../core/components/other/Input.vue';
@@ -210,7 +211,7 @@ onBeforeUnmount(() => {
       <Input v-model="search" class="search" type="search" label="Rechercher" placeholder="Nom ou e-mail" prefix-icon="fi fi-rr-search" />
       <Button class="compact" label="Rechercher" type="submit" :disabled="loading" />
     </form>
-    <p v-if="loading" role="status">Chargement des utilisateurs…</p>
+    <LoadingSpinner v-if="loading" label="Chargement des utilisateurs" />
     <p v-if="error" role="alert">{{ error }}</p>
     <div v-if="!loading && !error" class="table-wrap desktop-users">
       <table><thead><tr><th>Utilisateur</th><th>Abonnement actif</th><th>Événements</th><th>Total médias</th><th>Action</th></tr></thead>
@@ -240,7 +241,7 @@ onBeforeUnmount(() => {
   </section>
   <section v-else>
     <nav class="detail-breadcrumb" aria-label="Fil d’Ariane"><Button label="Utilisateurs" class="breadcrumb-back" :disabled="deleting" :on-click="closeDetail" /><span>Détail</span></nav>
-    <p v-if="loadingDetail" role="status">Chargement de l’utilisateur…</p>
+    <LoadingSpinner v-if="loadingDetail" label="Chargement de l’utilisateur" />
     <p v-if="detailError" role="alert">{{ detailError }}</p>
     <template v-if="selected">
       <div class="card">
@@ -272,7 +273,7 @@ onBeforeUnmount(() => {
   <ManagerDialog :open="confirming" title="Supprimer définitivement cet utilisateur ?" @close="!deleting && (confirming = false)">
     <p>Le compte de {{ selected?.full_name }} sera supprimé.</p>
     <p v-if="detailError" role="alert">{{ detailError }}</p>
-    <div class="dialog-actions"><Button label="Annuler" class="compact light" :disabled="deleting" :on-click="() => confirming = false" /><Button :label="deleting ? 'Suppression…' : 'Supprimer'" class="compact danger" :disabled="deleting" :on-click="deleteUser" /></div>
+    <div class="dialog-actions"><Button label="Annuler" class="compact light" :disabled="deleting" :on-click="() => confirming = false" /><Button :label="deleting ? 'Suppression…' : 'Supprimer'" :loading="deleting" class="compact danger" :disabled="deleting" :on-click="deleteUser" /></div>
   </ManagerDialog>
 </template>
 <style scoped>
