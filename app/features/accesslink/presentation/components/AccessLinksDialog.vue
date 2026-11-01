@@ -44,9 +44,9 @@ async function copyLink(url: string) {
   notice.value = '';
   try {
     await navigator.clipboard.writeText(url);
-    notice.value = 'Lien copié.';
+    showToast('Lien copié.', 'fi-rr-check', 'success');
   } catch {
-    notice.value = 'Impossible de copier le lien.';
+    showToast('Impossible de copier le lien.', 'fi-rr-exclamation', 'error');
   }
 }
 
