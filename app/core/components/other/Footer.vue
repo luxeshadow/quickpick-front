@@ -123,7 +123,7 @@
                 href="#"
                 class="footer-link"
               >
-                <i class="fi fi-rr-brain-doubt"></i>
+                <i class="fi fi-rr-messages-question"></i>
 
                 Aide
               </a>
