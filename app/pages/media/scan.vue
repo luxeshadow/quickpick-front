@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import LoadingSpinner from '../../core/components/other/LoadingSpinner.vue';
+import AccessLinkError from '../../features/accesslink/presentation/components/AccessLinkError.vue';
 import { computed, ref, onBeforeUnmount, watch } from 'vue';
 import { useRoute } from '#imports';
 import FaceScanner from '../../features/media/presentation/components/client/FaceScanner.vue';
@@ -50,12 +51,12 @@ async function handleCapture(photo: File, consent: boolean) {
 </script>
 <template>
   <LoadingSpinner v-if="loading" fullscreen :size="44" label="Chargement du lien d’accès" />
-  <p v-else-if="error" role="alert">{{ error }}</p>
+  <AccessLinkError v-else-if="error" :message="error" />
   <div v-else-if="accessLink">
     <FaceScanner v-if="!scanResult" :busy="searching" :search-error="searchError" @close="navigateTo({ path: '/media', query: { token } })" @capture="handleCapture" @change="searchError = ''" />
     <template v-else>
-      <div class="scan-result" role="status">
-        <p>{{ scanResult.scan.status === 'no_match' ? 'Aucune photo correspondante trouvée.' : scanResult.scan.matches_count + ' photo(s) trouvée(s).' }}</p>
+      <div v-if="!matchedItems.length" class="scan-result" role="status">
+        <p>Aucune photo correspondante trouvée.</p>
         <button type="button" @click="scanResult = null">Reprendre une recherche</button>
         <button type="button" @click="navigateTo({ path: '/media', query: { token } })">Retour à l’accueil</button>
       </div>

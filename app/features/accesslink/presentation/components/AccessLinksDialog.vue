@@ -2,6 +2,7 @@
 import LoadingSpinner from '../../../../core/components/other/LoadingSpinner.vue';
 import { ref, watch } from 'vue';
 import { Failure } from '../../../../core/error/failure';
+import { useToast } from '../../../../core/shared/useToast';
 import { useAuthStore } from '../../../auth/presentation/store/auth_store';
 import type { AccessLink } from '../../domain/entities/access_link';
 import ManagerDialog from '../../../../core/components/other/ManagerDialog.vue';
@@ -21,6 +22,7 @@ import { DeleteAccessLinkRepositoryImpl } from '../../data/repositories/delete_a
 const props = defineProps<{ event: { id: number; name: string } | null }>();
 const emit = defineEmits<{ close: [] }>();
 const auth = useAuthStore();
+const { showToast } = useToast();
 const getLinks = new GetEventAccessLinksUseCase(new GetEventAccessLinksRepositoryImpl());
 const generateLink = new GenerateAccessLinkUseCase(new GenerateAccessLinkRepositoryImpl());
 const showLink = new ShowAccessLinkUseCase(new ShowAccessLinkRepositoryImpl());
@@ -95,7 +97,9 @@ async function remove() {
   busy.value = false;
   if (result instanceof Failure) { error.value = result.message; return; }
   links.value = links.value.filter(link => link.id !== linkId);
-  deletingId.value = null; notice.value = result;
+  deletingId.value = null;
+  notice.value = '';
+  showToast(result, 'fi-rr-check', 'success');
 }
 </script>
 <template>

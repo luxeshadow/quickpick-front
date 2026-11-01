@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LoadingSpinner from '../../core/components/other/LoadingSpinner.vue';
+import AccessLinkError from '../../features/accesslink/presentation/components/AccessLinkError.vue';
 import { computed, ref, watch } from 'vue';
 import { useRoute } from '#imports';
 import ScanLanding from '../../features/media/presentation/components/client/ScanLanding.vue';
@@ -26,11 +26,10 @@ watch(token, async (value, oldValue, onCleanup) => {
 }, { immediate: true });
 </script>
 <template>
-  <LoadingSpinner v-if="loading" fullscreen :size="44" label="Chargement du lien d’accès" />
-  <p v-else-if="error" role="alert">{{ error }}</p>
-  <ScanLanding v-else-if="accessLink"
-    @scan="navigateTo({ path: '/media/scan', query: { token } })"
-    @gallery="navigateTo({ path: '/media/galery', query: { token } })" />
+  <AccessLinkError v-if="error" :message="error" />
+  <ScanLanding v-else :disabled="loading"
+    @scan="accessLink && navigateTo({ path: '/media/scan', query: { token } })"
+    @gallery="accessLink && navigateTo({ path: '/media/galery', query: { token } })" />
 </template>
 
 

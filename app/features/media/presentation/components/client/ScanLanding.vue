@@ -31,7 +31,7 @@
   <nav class="menu-panel" aria-label="Navigation">
     <NuxtLink to="/auth/login">Se connecter</NuxtLink>
     <NuxtLink to="/auth/register">Créer un compte</NuxtLink>
-    <button type="button" @click="emit('scan')">Retrouver mes photos</button>
+    <button type="button" :disabled="disabled" @click="emit('scan')">Retrouver mes photos</button>
   </nav>
 </details>
 
@@ -86,7 +86,7 @@
             <!-- GALERIE -->
 
             <button
-              @click="emit('gallery')"
+              :disabled="disabled" @click="emit('gallery')"
               class="action-button btn-primary"
               type="button"
             >
@@ -106,7 +106,7 @@
             <!-- FIND ME -->
 
             <button
-              @click="emit('scan')"
+              :disabled="disabled" @click="emit('scan')"
               class="action-button btn-secondary"
               type="button"
             >
@@ -198,6 +198,7 @@ import { AppImages } from '../../../../../core/constants/app_images';
 import { AppColors } from '../../../../../core/constants/app_colors';
 import Footer from '../../../../../core/components/other/Footer.vue';
 const colors = AppColors;
+withDefaults(defineProps<{ disabled?: boolean }>(), { disabled: false });
 const emit = defineEmits<{ gallery: []; scan: [] }>();
 </script>
 <style scoped>

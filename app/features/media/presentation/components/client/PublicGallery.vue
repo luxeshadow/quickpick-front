@@ -121,8 +121,7 @@ let previousOverflow: string | null = null;
 function clearSelection() { selecting.value = false; selected.value = []; }
 function back() {
   if (selecting.value) clearSelection();
-  else if (window.history.state?.back) router.back();
-  else router.replace({ path: '/media', query: { token: typeof route.query.token === 'string' ? route.query.token : '' } });
+  else router.push({ path: '/media', query: { token: typeof route.query.token === 'string' ? route.query.token : '' } });
 }
 function switchTab(value: 'photo' | 'video') { cancelPress(); clearSelection(); tab.value = value; }
 function selectItem(id: string) { selecting.value = true; if (!selected.value.includes(id)) selected.value.push(id); }

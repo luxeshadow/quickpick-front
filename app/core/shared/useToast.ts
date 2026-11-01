@@ -15,6 +15,7 @@ export const useToast = () => {
 
     if (lib) {
       lib({
+        selector: document.querySelector('dialog[open]') ?? document.body,
         text: `
           <div style="display: flex; align-items: center; gap: 12px;">
             <i class="fi ${icon}" style="font-size: 20px; color: ${type === 'error' ? AppColors.toastError : type === 'success' ? AppColors.toastSuccess : color}; flex-shrink: 0;"></i>
