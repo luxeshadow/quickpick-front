@@ -1,11 +1,20 @@
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt'],
   compatibilityDate: '2025-07-15',
   runtimeConfig: { public: { googleClientId: '' } },
   devtools: { enabled: true },
+
   app: {
     head: {
+      meta: [
+        {
+          name: 'google-site-verification',
+          content: 'BnGmnE4qD6j993qqSBbBCUmT6Cfo72TUdi3HHLGBMLI'
+        }
+      ],
+
       script: [
         {
           src: 'https://cdn.jsdelivr.net/npm/toastify-js',
@@ -16,6 +25,7 @@ export default defineNuxtConfig({
           defer: true
         }
       ],
+
       link: [
         {
           rel: 'icon',

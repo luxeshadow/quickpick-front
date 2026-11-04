@@ -1,7 +1,7 @@
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    
+    <meta name="google-site-verification" content="BnGmnE4qD6j993qqSBbBCUmT6Cfo72TUdi3HHLGBMLI" />
      <NuxtPage />
   </div>
  
