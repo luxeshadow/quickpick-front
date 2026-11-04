@@ -10,6 +10,10 @@ export default defineNuxtConfig({
     head: {
       meta: [
         {
+          name: 'description',
+          content: 'Quickpick simplifie le partage et la récupération des photos de mariages, galas et autres événements grâce à la reconnaissance faciale.'
+        },
+        {
           name: 'google-site-verification',
           content: 'BnGmnE4qD6j993qqSBbBCUmT6Cfo72TUdi3HHLGBMLI'
         }
